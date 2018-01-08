@@ -1,4 +1,4 @@
-package org.engine.publish.db;
+package org.engine.publishdata.db;
 
 import org.apache.avro.generic.GenericRecord;
 

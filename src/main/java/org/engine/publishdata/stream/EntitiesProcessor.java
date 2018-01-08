@@ -4,8 +4,8 @@ import org.apache.avro.generic.GenericRecord;
 import org.apache.kafka.streams.processor.Processor;
 import org.apache.kafka.streams.processor.ProcessorContext;
 import org.apache.log4j.Logger;
-import org.engine.publish.db.EntitiesRepository;
-import org.engine.publish.db.EntitiesRepositoryRedis; 
+import org.engine.publishdata.db.EntitiesRepository;
+import org.engine.publishdata.db.EntitiesRepositoryRedis;
 import org.engine.publishdata.utils.Utils;
 
 public class EntitiesProcessor implements Processor<Object,Object>{

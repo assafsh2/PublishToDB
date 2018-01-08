@@ -1,4 +1,4 @@
-package org.engine.publish.db;
+package org.engine.publishdata.db;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
