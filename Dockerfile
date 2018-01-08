@@ -5,7 +5,7 @@ WORKDIR /home/gradle/src
 
 COPY . /home/gradle/src
 RUN gradle clean
-RUN gradle build 
+RUN gradle build  --stacktrace
 RUN tar -xvf build/distributions/PublishDataToDB.tar
 
 ENV KAFKA_ADDRESS "localhost:9092"
