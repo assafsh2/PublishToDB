@@ -9,6 +9,7 @@ import org.engine.publishdata.db.EntitiesRepositoryRedis;
 import org.engine.publishdata.local.Simulator;
 import org.engine.publishdata.stream.StreamBuilder;
 import org.engine.publishdata.utils.Utils; 
+
 import io.redisearch.Document;
 
 public class Main {  	
@@ -62,7 +63,11 @@ public class Main {
 					for(Document doc : list) {					
 						logger.debug(doc.toString());
 					}				
-					Thread.sleep(2000);
+					try {
+						Thread.sleep(2000);
+					} catch (InterruptedException e) { 
+						e.printStackTrace();
+					}
 				}
 				i++;
 			}
