@@ -11,10 +11,8 @@ import org.apache.avro.generic.GenericRecord;
 
 
 import com.google.gson.JsonObject;
-
-import redis.clients.jedis.exceptions.JedisDataException; 
-import io.redisearch.Query;
-import io.redisearch.Schema;
+ 
+import io.redisearch.Query; 
 import io.redisearch.SearchResult;
 import io.redisearch.client.Client;
 import io.redisearch.Document;
@@ -28,17 +26,7 @@ public class EntitiesRepositoryRedis extends EntitiesRepository {
 		String redisHost = System.getenv("REDIS_HOST");
 		int redisPort = Integer.parseInt(System.getenv("REDIS_PORT"));
 
-		client = new Client("entitiesFeed", redisHost, redisPort);
-		/*
-		if(System.getenv("MODE").equals("PUT")) {	
-			try {
-				client.dropIndex();
-			} catch (JedisDataException e) {          
-			}
-			Schema sc = new Schema().addGeoField("location");
-			client.createIndex(sc, Client.IndexOptions.Default());
-		} 
-		*/		
+		client = new Client("entitiesFeed", redisHost, redisPort); 	
 	}
 
 	@Override
@@ -65,8 +53,11 @@ public class EntitiesRepositoryRedis extends EntitiesRepository {
 		payload.addProperty("longitude", longitude);
 		payload.addProperty("latitude", latitude); 
 		payload.addProperty("sourceName",sourceName);
-		payload.addProperty("action", "update");
+		payload.addProperty("action", "update");	 
+		
 		return payload.toString().getBytes(StandardCharsets.UTF_8);
+		
+		
 	} 
 
 	public List<Document> queryAllDocuments(double longitude, double latitude) {
