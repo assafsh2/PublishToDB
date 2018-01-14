@@ -48,11 +48,10 @@ public class Main {
 		else {
 			logger.debug("GET");
 			EntitiesRepository repository = new EntitiesRepositoryRedis();
-			int i = 1;
+			int i = 1; 
 			while(true) {
-
-				double longitude = 32 + (0.001 *i);
-				double latitude = 34 + (0.001 *i);
+				double longitude = 32 + (0.000001 *i);
+				double latitude = 34 + (0.000001 *i);
 
 				List<Document> list = repository.queryAllDocuments(longitude, latitude);
 				if(list.size() == 0 ) {
@@ -64,12 +63,15 @@ public class Main {
 						logger.debug(doc.toString());
 					}				
 					try {
-						Thread.sleep(2000);
+						Thread.sleep(10000);
 					} catch (InterruptedException e) { 
 						e.printStackTrace();
 					}
 				}
 				i++;
+				if(longitude > 33 || latitude > 34) {
+					i = 0;
+				}
 			}
 		}
 	}
