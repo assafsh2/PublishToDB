@@ -1,13 +1,18 @@
 package org.engine.publishdata;
- 
+
+import java.util.List;
+
 import org.apache.kafka.streams.KafkaStreams; 
 import org.apache.log4j.Logger;
+import org.engine.publishdata.db.EntitiesRepository;
+import org.engine.publishdata.db.EntitiesRepositoryRedis;
 import org.engine.publishdata.local.Simulator;
 import org.engine.publishdata.stream.StreamBuilder;
 import org.engine.publishdata.utils.Utils; 
+import io.redisearch.Document;
 
 public class Main {  	
-	static public boolean testing = true;
+	static public boolean testing = false;
 	final static public Logger logger = Logger.getLogger(Main.class);
 	static {
 		Utils.setDebugLevel(logger);
@@ -20,20 +25,40 @@ public class Main {
 		logger.debug("REDIS_HOST::::::::" + System.getenv("REDIS_HOST"));
 		logger.debug("REDIS_PORT::::::::" + System.getenv("REDIS_PORT"));
 		logger.debug("DEBUG_LEVEL::::::::" + System.getenv("DEBUG_LEVEL"));
-         
-		StreamBuilder streamBuilder = new StreamBuilder();
-        KafkaStreams kafkaStreams = streamBuilder.getStream();
+		logger.debug("MODE::::::::" + System.getenv("MODE"));
 
-        Runtime.getRuntime().addShutdownHook(new Thread(){
-        	@Override
-        	public void run() {
-        		kafkaStreams.close();
-        	}
-        });        
-        kafkaStreams.start();
-        
-        if(testing) {
-        	Simulator.writeData(streamBuilder.getSchemaRegistry());
-        }
+		if(System.getenv("MODE").equals("PUT")) {			
+			logger.debug("PUT");
+			StreamBuilder streamBuilder = new StreamBuilder();
+			KafkaStreams kafkaStreams = streamBuilder.getStream();
+
+			Runtime.getRuntime().addShutdownHook(new Thread(){
+				@Override
+				public void run() {
+					kafkaStreams.close();
+				}
+			});        
+			kafkaStreams.start();
+
+			if(testing) {
+				Simulator.writeData(streamBuilder.getSchemaRegistry());
+			}
+		}
+		else {
+			logger.debug("GET");
+			EntitiesRepository repository = new EntitiesRepositoryRedis();
+			int i = 1;
+			while(true) {
+			
+				double longitude = 32 + (0.001 *i);
+				double latitude = 34 + (0.001 *i);
+				logger.debug("The entities from redis with longitude <"+longitude+"> and latitude <"+latitude+"> are: ");
+				
+				List<Document> list = repository.queryAllDocuments(longitude, latitude);
+				for(Document doc : list) {					
+					logger.debug(doc.toString());
+				}
+			}
+		}
 	}
 }

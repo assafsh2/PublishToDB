@@ -6,7 +6,7 @@ import org.apache.kafka.streams.processor.ProcessorContext;
 import org.apache.log4j.Logger;
 import org.engine.publishdata.db.EntitiesRepository;
 import org.engine.publishdata.db.EntitiesRepositoryRedis;
-import org.engine.publishdata.utils.Utils;
+import org.engine.publishdata.utils.Utils; 
 
 public class EntitiesProcessor implements Processor<Object,Object>{
 	
@@ -23,11 +23,10 @@ public class EntitiesProcessor implements Processor<Object,Object>{
 	@Override
 	public void process(Object key, Object value) {
 		logger.debug("Key: "+key);
-		logger.debug("Value: "+value);
+		logger.debug("Value: "+value); 
 		
-		EntitiesRepository repository = new EntitiesRepositoryRedis();
-		
-		repository.saveEntity((GenericRecord)value); 
+		EntitiesRepository repository = new EntitiesRepositoryRedis();		
+		repository.saveEntity((GenericRecord)value);
 	}
 
 	@Override
