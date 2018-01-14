@@ -29,6 +29,7 @@ public class EntitiesRepositoryRedis extends EntitiesRepository {
 		int redisPort = Integer.parseInt(System.getenv("REDIS_PORT"));
 
 		client = new Client("entitiesFeed", redisHost, redisPort);
+		/*
 		if(System.getenv("MODE").equals("PUT")) {	
 			try {
 				client.dropIndex();
@@ -36,7 +37,8 @@ public class EntitiesRepositoryRedis extends EntitiesRepository {
 			}
 			Schema sc = new Schema().addGeoField("location");
 			client.createIndex(sc, Client.IndexOptions.Default());
-		} 		
+		} 
+		*/		
 	}
 
 	@Override
