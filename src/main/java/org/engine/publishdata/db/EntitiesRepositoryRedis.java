@@ -45,12 +45,11 @@ public class EntitiesRepositoryRedis extends EntitiesRepository {
 	public void saveEntity(GenericRecord record) {
 		Map<String, Object> fields = new HashMap<>();
 
+		String entityId = (String) record.get("entityID").toString();
 		GenericRecord entityAttributes = (GenericRecord)record.get("entityAttributes");
-		String entityId = (String) entityAttributes.get("entityID").toString();
 		GenericRecord basicAttributes = (GenericRecord)entityAttributes.get("basicAttributes");
 		String sourceName = (String) basicAttributes.get("sourceName").toString();
 		GenericRecord coordinate = (GenericRecord) basicAttributes.get("coordinate"); 
-
 		double longitude = (double) coordinate.get("long");
 		double latitude = (double) coordinate.get("lat"); 
 
