@@ -43,7 +43,7 @@ public class EntitiesRepositoryRedis extends EntitiesRepository {
 		GenericRecord entityAttributes = (GenericRecord)record.get("entityAttributes");
 		String externalSystemID = (String) entityAttributes.get("externalSystemID").toString();
 		GenericRecord basicAttributes = (GenericRecord)entityAttributes.get("basicAttributes");
-		String sourceName = (String) entityAttributes.get("sourceName").toString();
+		String sourceName = (String) basicAttributes.get("sourceName").toString();
 		GenericRecord coordinate = (GenericRecord) basicAttributes.get("coordinate"); 
 
 		double longitude = (double) coordinate.get("long");
