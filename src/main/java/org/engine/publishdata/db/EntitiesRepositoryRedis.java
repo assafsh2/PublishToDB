@@ -36,7 +36,7 @@ public class EntitiesRepositoryRedis extends EntitiesRepository {
 			}
 			Schema sc = new Schema().addGeoField("location");
 			client.createIndex(sc, Client.IndexOptions.Default());
-		}
+		} 		
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class EntitiesRepositoryRedis extends EntitiesRepository {
 		Map<String, Object> fields = new HashMap<>();
 
 		GenericRecord entityAttributes = (GenericRecord)record.get("entityAttributes");
-		String externalSystemID = (String) entityAttributes.get("externalSystemID").toString();
+		String entityId = (String) entityAttributes.get("entityID").toString();
 		GenericRecord basicAttributes = (GenericRecord)entityAttributes.get("basicAttributes");
 		String sourceName = (String) basicAttributes.get("sourceName").toString();
 		GenericRecord coordinate = (GenericRecord) basicAttributes.get("coordinate"); 
@@ -53,9 +53,9 @@ public class EntitiesRepositoryRedis extends EntitiesRepository {
 		double latitude = (double) coordinate.get("lat"); 
 
 		fields.put("location", longitude + "," + latitude);  
-		byte[] payload = generatePayload(externalSystemID, longitude, latitude,sourceName); 
+		byte[] payload = generatePayload(entityId, longitude, latitude,sourceName); 
 
-		client.addDocument(externalSystemID, 1.0, fields, false, true, payload); 
+		client.addDocument(entityId, 1.0, fields, false, true, payload); 
 	}
 
 	private byte[] generatePayload(String entityId, double longitude, double latitude,String sourceName) {
