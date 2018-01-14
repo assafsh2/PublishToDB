@@ -34,7 +34,7 @@ public class StreamBuilder {
 	public KafkaStreams getStream() {
 		TopologyBuilder builder = new TopologyBuilder();
 
-		builder.addSource("messages-source", new StringDeserializer(), // keyDeserializer
+		builder.addSource("messages-source",getDeserializer(true), // keyDeserializer
 				getDeserializer(false), // valDeserializer
 				"update")
 				.addProcessor("processor",
