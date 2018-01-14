@@ -68,7 +68,7 @@ public class Main {
 					logger.debug("\n\n\n\n=============================================================");
 					logger.debug("The entities from redis with longitude <"
 							+ longitude + "> and latitude <" + latitude
-							+ "> are [num=" + list.size() + ": ");
+							+ "> are [num=" + list.size() + "]: ");
 					for (Document doc : list) { 
 						logger.debug(doc.toString());
 						JsonParser jsonParser = new JsonParser();

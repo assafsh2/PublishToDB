@@ -21,8 +21,8 @@ public class EntitiesProcessor implements Processor<Object,Object>{
 
 	@Override
 	public void process(Object key, Object value) {
-		logger.debug("Key: "+key);
-		logger.debug("Value: "+value); 
+		logger.debug("Key: "+(String)key);
+		logger.debug("Value: "+(GenericRecord)value); 
 		
 		EntitiesRepository repository = new EntitiesRepositoryRedis();		
 		repository.saveEntity((GenericRecord)value);
