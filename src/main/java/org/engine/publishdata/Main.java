@@ -49,16 +49,21 @@ public class Main {
 			EntitiesRepository repository = new EntitiesRepositoryRedis();
 			int i = 1;
 			while(true) {
-			
+
 				double longitude = 32 + (0.001 *i);
 				double latitude = 34 + (0.001 *i);
-				logger.debug("The entities from redis with longitude <"+longitude+"> and latitude <"+latitude+"> are: ");
-				
+
 				List<Document> list = repository.queryAllDocuments(longitude, latitude);
-				for(Document doc : list) {					
-					logger.debug(doc.toString());
+				if(list.size() == 0 ) {
+					logger.debug("Not Found entities from redis with longitude <"+longitude+"> and latitude <"+latitude+">");
+				}
+				else {
+					logger.debug("The entities from redis with longitude <"+longitude+"> and latitude <"+latitude+"> are: ");
+					for(Document doc : list) {					
+						logger.debug(doc.toString());
+					}				
+					Thread.sleep(2000);
 				}
 			}
 		}
 	}
-}
