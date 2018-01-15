@@ -82,7 +82,7 @@ public class Main {
 					}
 				}
 				i++;
-				if (longitude > 33 || latitude > 34) {
+				if (longitude > 33 || latitude > 35) {
 					i = 0;
 				}
 			}
