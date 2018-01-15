@@ -50,7 +50,7 @@ public class EntitiesRepositoryRedis implements EntitiesRepository {
 		String queryString = "@location:[" + longitude
 				+ " " + latitude
 				+ " 10 km]";
-		Query query = new Query(queryString).setWithPaload();
+		Query query = new Query(queryString).setWithPaload().limit(0,Integer.MAX_VALUE);
 		SearchResult res = client.search(query);
 		list.addAll(res.docs);
 
