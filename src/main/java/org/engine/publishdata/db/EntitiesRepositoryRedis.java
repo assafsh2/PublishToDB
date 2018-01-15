@@ -8,8 +8,6 @@ import java.util.Map;
 
 import org.apache.avro.generic.GenericRecord;
 
-
-
 import com.google.gson.JsonObject;
  
 import io.redisearch.Query; 
@@ -17,12 +15,11 @@ import io.redisearch.SearchResult;
 import io.redisearch.client.Client;
 import io.redisearch.Document;
 
-public class EntitiesRepositoryRedis extends EntitiesRepository {
+public class EntitiesRepositoryRedis implements EntitiesRepository {
 
 	private Client client; 
 
-	@Override
-	protected void init() {
+	public EntitiesRepositoryRedis() {
 		String redisHost = System.getenv("REDIS_HOST");
 		int redisPort = Integer.parseInt(System.getenv("REDIS_PORT"));
 
@@ -46,6 +43,19 @@ public class EntitiesRepositoryRedis extends EntitiesRepository {
 
 		client.addDocument(entityId, 1.0, fields, false, true, payload); 
 	}
+	
+	@Override
+	public List<Document> queryDocuments(double longitude, double latitude) {
+		List<Document> list = new ArrayList<Document>(); 
+		String queryString = "@location:[" + longitude
+				+ " " + latitude
+				+ " 10 km]";
+		Query query = new Query(queryString).setWithPaload();
+		SearchResult res = client.search(query);
+		list.addAll(res.docs);
+
+		return list;
+	}
 
 	private byte[] generatePayload(String entityId, double longitude, double latitude,String sourceName) {
 		JsonObject payload = new JsonObject();
@@ -56,19 +66,5 @@ public class EntitiesRepositoryRedis extends EntitiesRepository {
 		payload.addProperty("action", "update");	 
 		
 		return payload.toString().getBytes(StandardCharsets.UTF_8);
-		
-		
-	} 
-
-	public List<Document> queryAllDocuments(double longitude, double latitude) {
-		List<Document> list = new ArrayList<Document>(); 
-		String queryString = "@location:[" + longitude
-				+ " " + latitude
-				+ " 10000 km]";
-		Query query = new Query(queryString).setWithPaload();
-		SearchResult res = client.search(query);
-		list.addAll(res.docs);
-
-		return list;
-	} 
+	}  
 }
