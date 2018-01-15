@@ -27,9 +27,10 @@ public class Queries {
 		double longitude = 0;
 		double latitude = 0;
 		while (true) {
-			longitude = 32 + (0.0005 * i);
-			do {
-				latitude = 34 + (0.0005 * j);
+			longitude = 32 + (0.001 * i);
+			j = 0;
+			do {				
+				latitude = 34 + (0.001 * j);
 
 				List<Document> list = repository.queryDocuments(longitude,latitude);
 				if (list.size() == 0) {
@@ -47,22 +48,20 @@ public class Queries {
 						logger.debug("Payload ="+payload.toString());
 					}
 					try {
-						Thread.sleep(100);
+						Thread.sleep(20);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 				}
-				i++;
-				if (longitude > 33 ) {
-					i = 0;
-				}
+			 
 				j++;	
 
 			}while(latitude < 35);
 
+	
+			i++;
 			if (longitude > 33 ) {
-				i = 0;
-				j = 0;
+				i = 0; 
 			}
 		}
 
