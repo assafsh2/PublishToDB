@@ -70,7 +70,8 @@ public class StreamBuilder {
 
 		props.put("schema.registry.url", schemaRegustryUrl);
 		props.put("group.id", "group1");
-		props.put("application.id", "publishToDB");
+		props.put("application.id", "publishToDB");		
+		props.put("auto.offset.reset","largest");
 
 		return props;
 	}

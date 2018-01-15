@@ -47,7 +47,7 @@ public class Queries {
 						logger.debug("Payload ="+payload.toString());
 					}
 					try {
-						Thread.sleep(1000);
+						Thread.sleep(100);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
