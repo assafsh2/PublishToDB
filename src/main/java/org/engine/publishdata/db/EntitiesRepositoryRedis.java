@@ -6,11 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map; 
 
-import org.apache.avro.generic.GenericRecord;
+import org.apache.avro.generic.GenericRecord; 
 
 import com.google.gson.JsonObject;
- 
-import io.redisearch.Query; 
+
+import io.redisearch.Query;  
 import io.redisearch.SearchResult;
 import io.redisearch.client.Client;
 import io.redisearch.Document;
@@ -23,7 +23,7 @@ public class EntitiesRepositoryRedis implements EntitiesRepository {
 		String redisHost = System.getenv("REDIS_HOST");
 		int redisPort = Integer.parseInt(System.getenv("REDIS_PORT"));
 
-		client = new Client("entitiesFeed", redisHost, redisPort); 	
+		client = new Client("entitiesFeed", redisHost, redisPort); 	 
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class EntitiesRepositoryRedis implements EntitiesRepository {
 		String queryString = "@location:[" + longitude
 				+ " " + latitude
 				+ " 10 km]";
-		Query query = new Query(queryString).setWithPaload().limit(0,Integer.MAX_VALUE);
+		Query query = new Query(queryString).setWithPaload().limit(0,1000000);
 		SearchResult res = client.search(query);
 		list.addAll(res.docs);
 
