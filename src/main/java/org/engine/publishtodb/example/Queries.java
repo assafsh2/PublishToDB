@@ -19,40 +19,52 @@ public class Queries {
 	static {
 		Utils.setDebugLevel(logger);
 	}	
-	
+
 	public void generateDocumentQuery() {
 		EntitiesRepository repository = new EntitiesRepositoryRedis();
-		int i = 1;
+		int i = 0;
+		int j = 0;
+		double longitude = 0;
+		double latitude = 0;
 		while (true) {
-			double longitude = 32 + (0.0001 * i);
-			double latitude = 34 + (0.0001 * i);
+			longitude = 32 + (0.0005 * i);
+			do {
+				latitude = 34 + (0.0005 * j);
 
-			List<Document> list = repository.queryDocuments(longitude,latitude);
-			if (list.size() == 0) {
-				logger.debug("Not Found entities from redis with longitude <"
-						+ longitude + "> and latitude <" + latitude + ">");
-			} else {
-				logger.debug("\n\n\n\n=============================================================");
-				logger.debug("The entities from redis with longitude <"
-						+ longitude + "> and latitude <" + latitude
-						+ "> are [num=" + list.size() + "]: ");
-				for (Document doc : list) { 
-					logger.debug(doc.toString());
-					JsonParser jsonParser = new JsonParser();
-					JsonObject payload = (JsonObject) jsonParser.parse(new String(doc.getPayload(), StandardCharsets.UTF_8));
-					logger.debug("Payload ="+payload.toString());
+				List<Document> list = repository.queryDocuments(longitude,latitude);
+				if (list.size() == 0) {
+					logger.debug("Not Found entities from redis with longitude <"
+							+ longitude + "> and latitude <" + latitude + ">");
+				} else {
+					logger.debug("\n\n\n\n=============================================================");
+					logger.debug("The entities from redis with longitude <"
+							+ longitude + "> and latitude <" + latitude
+							+ "> are [num=" + list.size() + "]: ");
+					for (Document doc : list) { 
+						logger.debug(doc.toString());
+						JsonParser jsonParser = new JsonParser();
+						JsonObject payload = (JsonObject) jsonParser.parse(new String(doc.getPayload(), StandardCharsets.UTF_8));
+						logger.debug("Payload ="+payload.toString());
+					}
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+				i++;
+				if (longitude > 33 ) {
+					i = 0;
 				}
-			}
-			i++;
-			if (longitude > 33 || latitude > 35) {
+				j++;	
+
+			}while(latitude < 35);
+
+			if (longitude > 33 ) {
 				i = 0;
+				j = 0;
 			}
 		}
-		
+
 	}
 }
