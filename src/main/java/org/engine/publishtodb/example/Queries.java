@@ -27,10 +27,10 @@ public class Queries {
 		double longitude = 0;
 		double latitude = 0;
 		while (true) {
-			longitude = 32 + (0.001 * i);
+			longitude = 32.425 + (0.001 * i);
 			j = 0;
 			do {				
-				latitude = 34 + (0.001 * j);
+				latitude = 34.554 + (0.001 * j);
 
 				List<Document> list = repository.queryDocuments(longitude,latitude);
 				if (list.size() == 0) {
