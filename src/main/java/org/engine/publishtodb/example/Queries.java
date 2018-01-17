@@ -15,7 +15,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class Queries {
-	final static private Logger logger = Logger.getLogger(Main.class);
+	final static private Logger logger = Logger.getLogger(Queries.class);
 	static {
 		Utils.setDebugLevel(logger);
 	}	
@@ -32,7 +32,7 @@ public class Queries {
 			do {				
 				latitude = 34.554 + (0.001 * j);
 
-				List<Document> list = repository.queryDocuments(longitude,latitude);
+				List<Document> list = repository.queryDocumentsByGeo(longitude,latitude);
 				if (list.size() == 0) {
 					logger.debug("Not Found entities from redis with longitude <"
 							+ longitude + "> and latitude <" + latitude + ">");
@@ -48,7 +48,7 @@ public class Queries {
 						logger.debug("Payload ="+payload.toString());
 					}
 					try {
-						Thread.sleep(20);
+						Thread.sleep(5);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
